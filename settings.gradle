@@ -1,0 +1,8 @@
+rootProject.name='money-saver'
+
+include 'money-saver-api'
+include 'money-saver-domain'
+include 'money-saver-repository'
+include 'money-saver-service'
+include 'money-saver-ui-admin'
+include 'money-saver-ui-web'
