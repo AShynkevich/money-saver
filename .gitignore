@@ -1,0 +1,14 @@
+/target/
+/.*/
+/*.iml
+/.idea/
+/out/
+/log/
+.gradle
+build
+
+# IntelliJ project files 
+*.iml
+*.iws
+*.ipr
+.idea
