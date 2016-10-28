@@ -1,0 +1,35 @@
+apply plugin: 'java'
+apply plugin: 'liquibase'
+
+buildscript {
+	repositories {
+		maven {
+			url uri('https://oss.sonatype.org/content/repositories/releases/')
+		}
+		jcenter()
+	}
+	dependencies {
+		classpath 'postgresql:postgresql:9.1-901.jdbc4'
+		classpath 'net.saliman:gradle-liquibase-plugin:1.0.0'
+	}
+}
+
+dependencies {
+		compile('org.liquibase:liquibase-core:2.0.1')
+}
+
+liquibase {
+	activities {
+		createBase {
+			changeLogFile 'src/main/resources/liquibase/createBase.groovy'
+			url "${dbConnectionURL}" + "postgres"// + "defpub?createDatabaseIfNotExist=true"
+			username "${dbUserName}"
+			password "${dbPassword}"
+		}
+	}
+	def rl = 'main'
+	if (project.hasProperty('runList')) {
+		rl = project.runList
+	}
+	runList = rl
+}
