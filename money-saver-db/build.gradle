@@ -22,7 +22,13 @@ liquibase {
 	activities {
 		createBase {
 			changeLogFile 'src/main/resources/liquibase/createBase.groovy'
-			url "${dbConnectionURL}" + "postgres"// + "defpub?createDatabaseIfNotExist=true"
+			url "${dbConnectionURL}" + "postgres"
+			username "${dbUserName}"
+			password "${dbPassword}"
+		}
+		main {
+			changeLogFile 'src/main/resources/liquibase/initial.groovy'
+			url "${dbConnectionURL}" + "${dbName}"
 			username "${dbUserName}"
 			password "${dbPassword}"
 		}
