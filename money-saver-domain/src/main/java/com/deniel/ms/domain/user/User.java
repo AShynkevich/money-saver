@@ -1,11 +1,12 @@
 package com.deniel.ms.domain.user;
 
+import com.deniel.ms.domain.Identifiable;
 import com.deniel.ms.domain.StoredObject;
 
 /**
  * Created by DenielNote on 01.11.2016.
  */
-public class User extends StoredObject {
+public class User extends StoredObject implements Identifiable<String>{
     private String login ;
     private String pass;
     private boolean activeFlag;
