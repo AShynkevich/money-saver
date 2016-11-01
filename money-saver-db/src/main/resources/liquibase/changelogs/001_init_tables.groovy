@@ -37,14 +37,14 @@ databaseChangeLog {
             column(name: 'role_name', type: 'VARCHAR(128)') {
                 constraints(nullable: false)
             }
-   column(name: 'created_datetime', type: 'TIMESTAMP', defaultValueDate: "CURRENT_TIMESTAMP")
+            column(name: 'created_datetime', type: 'TIMESTAMP', defaultValueDate: "CURRENT_TIMESTAMP")
             column(name: 'updated_datetime', type: 'TIMESTAMP')
         }
 
         rollback {
             // automatic rollback
         }
-    }
+ }
  
  changeSet(id: '00003', author: 'deniel') {
         comment "Create user_role_map table"
