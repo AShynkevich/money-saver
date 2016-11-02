@@ -17,4 +17,9 @@ public interface IUser extends Identifiable<String>{
     boolean isActiveFlag();
 
     void setActiveFlag(boolean activeFlag);
+
+    String getName();
+
+    void setName(String name);
+
 }
