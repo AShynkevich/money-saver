@@ -13,5 +13,5 @@ public interface Crud<K, E extends Identifiable<K>> {
 
     void update(E entity);
 
-    boolean delete(K id);
+    void delete(K id);
 }
