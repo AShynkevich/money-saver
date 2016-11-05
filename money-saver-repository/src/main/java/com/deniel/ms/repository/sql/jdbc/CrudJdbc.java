@@ -1,6 +1,7 @@
 package com.deniel.ms.repository.sql.jdbc;
 
 import com.deniel.ms.domain.Identifiable;
+import com.deniel.ms.exeption.RepositoryExeption;
 import com.deniel.ms.repository.Crud;
 import com.deniel.ms.repository.sql.jdbc.util.PropertyValuesGetter;
 
@@ -14,7 +15,7 @@ public abstract class CrudJdbc<E extends Identifiable<String>> implements Crud<S
     private static final String SQL_READ_QUERY = "SELECT * FROM %s where (%s = ?)";
     private static final String SQL_DELETE_QUERY = "DELETE FROM %s where (%s = ?)";
 
-    public CrudJdbc() {
+    public CrudJdbc() throws RepositoryExeption{
         PropertyValuesGetter getPropertyValues = new PropertyValuesGetter();
         String url = getPropertyValues.getDbURL() + getPropertyValues.getDbName();
         String user = getPropertyValues.getDbUserName();
@@ -23,22 +24,22 @@ public abstract class CrudJdbc<E extends Identifiable<String>> implements Crud<S
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(url, user, pass);
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            throw new RepositoryExeption("DB connection error", e);
         }
     }
 
     @Override
-    public void create(E entity) {
+    public void create(E entity) throws RepositoryExeption {
         try {
             PreparedStatement preparedStatement = getCreateStatement(entity);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RepositoryExeption("Create RepositoryException");
         }
     }
 
     @Override
-    public E read(String id) {
+    public E read(String id) throws RepositoryExeption {
         E entity = null;
         try {
             PreparedStatement preparedStatement = getParamIdStatement(id, String.format(SQL_READ_QUERY, getTableName(), getTableFieldId()));
@@ -47,29 +48,29 @@ public abstract class CrudJdbc<E extends Identifiable<String>> implements Crud<S
                 entity = getEntity(resultSet);
             }
         } catch (SQLException e) {
-            System.out.println("SQL exception");
+            throw new RepositoryExeption("Read RepositoryException");
         }
         return entity;
     }
 
     @Override
-    public void update(E entity) {
+    public void update(E entity) throws RepositoryExeption {
         try {
             PreparedStatement preparedStatement = getUpdateStatement(entity);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RepositoryExeption("Update RepositoryException", e);
         }
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String id) throws RepositoryExeption {
         if (read(id) != null) {
             try {
                 PreparedStatement preparedStatement = getParamIdStatement(id, String.format(SQL_DELETE_QUERY, getTableName(), getTableFieldId()));
                 preparedStatement.executeUpdate();
             } catch (SQLException e) {
-                System.out.println("SQL exception");
+                throw new RepositoryExeption("Delete RepositoryException", e);
             }
         }
     }
