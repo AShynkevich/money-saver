@@ -27,7 +27,7 @@ public class ConnectionManager {
         }
         return instance;
     }
-    
+
     private ConnectionManager() {
         PropertyValuesGetter getPropertyValues = new PropertyValuesGetter();
         String url = getPropertyValues.getDbURL() + getPropertyValues.getDbName();

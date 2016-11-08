@@ -5,7 +5,7 @@ databaseChangeLog {
             column(name: 'user_id', value: '11123005va')
             column(name: 'user_name', value: 'admin')
             column(name: 'login', value: 'deniel')
-            column(name: 'pass', value: "12345678")
+            column(name: 'pass', value: "b6e79dc4288af2421c39fe2d805ae596")
             column(name: 'created_datetime', value: 'now()')
             column(name: 'updated_datetime', value: "now()")
             column(name: 'active_flag', value: 'false')
