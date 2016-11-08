@@ -2,7 +2,7 @@ package com.deniel.ms.repository.sql.jdbc.user;
 
 import com.deniel.ms.domain.user.IUser;
 import com.deniel.ms.domain.user.User;
-import com.deniel.ms.exeption.RepositoryExeption;
+import com.deniel.ms.repository.sql.jdbc.ConnectionManager;
 import com.deniel.ms.repository.sql.jdbc.CrudJdbc;
 import com.deniel.ms.user.IUserRepository;
 
@@ -20,7 +20,8 @@ public class UserRepository extends CrudJdbc<IUser> implements IUserRepository {
     private static final String UPDATE_SQL = "UPDATE users SET user_name = ?, login = ?, pass = ?, active_flag = ?, " +
             "where user_id = ?";
 
-    public UserRepository() throws RepositoryExeption {
+    public UserRepository(ConnectionManager connectionManager) {
+        super(connectionManager);
     }
 
     @Override

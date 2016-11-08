@@ -21,5 +21,4 @@ public interface IUser extends Identifiable<String>{
     String getName();
 
     void setName(String name);
-
 }

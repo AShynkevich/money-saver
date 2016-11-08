@@ -6,5 +6,7 @@ import com.deniel.ms.domain.Identifiable;
  * Created by DenielNote on 01.11.2016.
  */
 public interface IRole extends Identifiable<String> {
+    String getName();
 
+    void setName(String name);
 }
