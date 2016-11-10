@@ -11,7 +11,7 @@ databaseChangeLog {
                 constraints(nullable: false)
             }
 			column(name: 'login', type: 'VARCHAR(128)') {
-                constraints(nullable: false)
+                constraints(nullable: false, unique: true, uniqueConstraintName: 'UIX_USERS_LOGIN')
             }
             column(name: 'pass', type: 'VARCHAR(128)') {
                 constraints(nullable: false)
@@ -76,4 +76,5 @@ databaseChangeLog {
                 baseTableName: 'user_role_map', baseColumnNames: 'role_id',
                 referencedTableName: 'roles', referencedColumnNames: 'role_id')
         }
+
 }

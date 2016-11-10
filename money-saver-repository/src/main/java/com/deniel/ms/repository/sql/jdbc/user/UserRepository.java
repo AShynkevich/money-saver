@@ -1,7 +1,6 @@
 package com.deniel.ms.repository.sql.jdbc.user;
 
-import com.deniel.ms.domain.user.IUser;
-import com.deniel.ms.domain.user.User;
+import com.deniel.ms.domain.user.*;
 import com.deniel.ms.repository.sql.jdbc.ConnectionManager;
 import com.deniel.ms.repository.sql.jdbc.CrudJdbc;
 import com.deniel.ms.user.IUserRepository;
@@ -9,6 +8,8 @@ import com.deniel.ms.user.IUserRepository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by DenielNote on 01.11.2016.
@@ -19,6 +20,7 @@ public class UserRepository extends CrudJdbc<IUser> implements IUserRepository {
     private static final String CREATE_SQL = "INSERT INTO users values(?, ?, ?, ?, now(), now(), ?)";
     private static final String UPDATE_SQL = "UPDATE users SET user_name = ?, login = ?, pass = ?, active_flag = ?, " +
             "where user_id = ?";
+    private static final String USER_ROLES_SQL = "SELECT users.*, roles.role_name, roles.role_id FROM users, roles WHERE login = ?";
 
     public UserRepository(ConnectionManager connectionManager) {
         super(connectionManager);
@@ -49,11 +51,7 @@ public class UserRepository extends CrudJdbc<IUser> implements IUserRepository {
     @Override
     protected IUser getEntity(ResultSet resultSet) throws SQLException {
         IUser entity = new User();
-        entity.setId(resultSet.getString("user_id"));
-        entity.setName(resultSet.getString("user_name"));
-        entity.setLogin(resultSet.getString("login"));
-        entity.setPass(resultSet.getString("pass"));
-        entity.setActiveFlag(resultSet.getBoolean("active_flag"));
+        prepareUserInfo(entity, resultSet);
         return entity;
     }
 
@@ -65,5 +63,35 @@ public class UserRepository extends CrudJdbc<IUser> implements IUserRepository {
     @Override
     protected String getTableFieldId() {
         return TABLE_FIELD_ID;
+    }
+
+    public IUserRoles getUserByLogin(String login) throws SQLException {
+        IUserRoles userRoles = new UserRoles();
+        List<IRole> listRoles = new ArrayList<>();
+
+        PreparedStatement preparedStatement = getConnection().prepareStatement(USER_ROLES_SQL);
+        preparedStatement.setString(1, login);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            IRole role = new Role();
+            role.setName(resultSet.getString("role_name"));
+            role.setId(resultSet.getString("role_id"));
+            listRoles.add(role);
+            if(userRoles.getId() == null) {
+                prepareUserInfo(userRoles, resultSet);
+            }
+        }
+
+        userRoles.setRoles(listRoles);
+        return userRoles;
+    }
+
+    private void prepareUserInfo(IUser user, ResultSet resultSet) throws SQLException {
+        user.setId(resultSet.getString("user_id"));
+        user.setName(resultSet.getString("user_name"));
+        user.setLogin(resultSet.getString("login"));
+        user.setPass(resultSet.getString("pass"));
+        user.setActiveFlag(resultSet.getBoolean("active_flag"));
     }
 }
