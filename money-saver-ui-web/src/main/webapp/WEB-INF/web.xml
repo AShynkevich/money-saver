@@ -11,7 +11,7 @@
 
 	<servlet>
 		<servlet-name>DispatcherServlet</servlet-name>
-		<servlet-class>com.deniel.ms.web.DispatcherServlet</servlet-class>
+		<servlet-class>com.deniel.ms.web.servlet.DispatcherServlet</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>

@@ -5,10 +5,10 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Hello JSP</title>
+    <title>Home page</title>
   </head>
   <body>
-    <h1>Hello world! I'm Money-saver! Привет, мир!</h1>
+    <h1>Home page. Домашняя страница.</h1>
   </body>
 </html>
   

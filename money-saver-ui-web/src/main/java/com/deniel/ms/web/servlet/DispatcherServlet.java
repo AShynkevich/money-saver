@@ -1,4 +1,7 @@
-package com.deniel.ms.web;
+package com.deniel.ms.web.servlet;
+
+import com.deniel.ms.web.manager.ActionManager;
+import com.deniel.ms.web.manager.IAction;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -12,8 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class DispatcherServlet extends HttpServlet{
     private static final String WEBINF_FMT = "/WEB-INF/jsp/{0}.jsp";
-    private static final String HELLO_PATH = "app/hello";
-    private static final String ROOT_PATH = "/app";
+    private static final String APP_PATH = "/app/";
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         processRequest(req, resp);
@@ -24,11 +26,12 @@ public class DispatcherServlet extends HttpServlet{
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String address = req.getRequestURI().substring(req.getContextPath().length());
-
-        if (ROOT_PATH.equals(address)) {
-            performForward(HELLO_PATH, req, resp);
-        } else {
+        String reqUrl = req.getRequestURI();
+        String action = reqUrl.substring(reqUrl.indexOf(APP_PATH) + APP_PATH.length());
+        IAction actionInstance = ActionManager.findAction(action);
+        try {
+            performForward(actionInstance.doAction(req, resp), req, resp);
+        } catch (Exception e) {
             resp.sendRedirect("http://google.com");
         }
     }
