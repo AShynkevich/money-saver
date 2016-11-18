@@ -1,6 +1,7 @@
 package com.deniel.ms.web.manager;
 
 import com.deniel.ms.web.action.HomeAction;
+import com.deniel.ms.web.action.NotFoundAction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +17,10 @@ public class ActionManager {
     }
 
     public static synchronized IAction findAction(String actionInstance) {
-        return actionList.get(actionInstance);
+        IAction returnAction = actionList.get(actionInstance);
+        if (returnAction == null) {
+            return new NotFoundAction();
+        }
+        return returnAction;
     }
 }

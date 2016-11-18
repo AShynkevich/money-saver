@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Created by DenielNote on 13.11.2016.
  */
-public class DispatcherServlet extends HttpServlet{
+public class DispatcherServlet extends HttpServlet {
     private static final String WEBINF_FMT = "/WEB-INF/jsp/{0}.jsp";
     private static final String APP_PATH = "/app/";
 
@@ -26,17 +26,20 @@ public class DispatcherServlet extends HttpServlet{
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String reqUrl = req.getRequestURI();
-        String action = reqUrl.substring(reqUrl.indexOf(APP_PATH) + APP_PATH.length());
-        IAction actionInstance = ActionManager.findAction(action);
         try {
-            performForward(actionInstance.doAction(req, resp), req, resp);
+            performForward(getAction(req, resp), req, resp);
         } catch (Exception e) {
             resp.sendRedirect("http://google.com");
         }
     }
 
-    private void performForward (String address, HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException{
+    private void performForward(String address, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher(MessageFormat.format(WEBINF_FMT, address)).forward(req, resp);
+    }
+
+    public String getAction(HttpServletRequest req, HttpServletResponse resp) {
+        String reqUrl = req.getRequestURI();
+        String action = reqUrl.substring(reqUrl.indexOf(APP_PATH) + APP_PATH.length());
+        return ActionManager.findAction(action).doAction(req, resp);
     }
 }
