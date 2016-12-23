@@ -1,6 +1,6 @@
 package liquibase
 
 databaseChangeLog {
-    includeAll(path: 'src/main/resources/liquibase/changelogs', relativeToChangelogFile: false)
+    includeAll(path: 'money-saver-db/src/main/resources/liquibase/changelogs', relativeToChangelogFile: false)
 }
 

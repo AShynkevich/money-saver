@@ -21,13 +21,13 @@ dependencies {
 liquibase {
 	activities {
 		createBase {
-			changeLogFile 'src/main/resources/liquibase/createBase.groovy'
+			changeLogFile 'money-saver-db/src/main/resources/liquibase/createBase.groovy'
 			url "${dbConnectionURL}" + "postgres"
 			username "${dbUserName}"
 			password "${dbPassword}"
 		}
 		main {
-			changeLogFile 'src/main/resources/liquibase/initial.groovy'
+			changeLogFile 'money-saver-db/src/main/resources/liquibase/initial.groovy'
 			url "${dbConnectionURL}" + "${dbName}"
 			username "${dbUserName}"
 			password "${dbPassword}"
