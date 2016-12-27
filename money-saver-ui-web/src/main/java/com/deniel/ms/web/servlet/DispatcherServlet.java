@@ -24,7 +24,7 @@ public class DispatcherServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         context = new ClassPathXmlApplicationContext("web-context.xml");
-        actionManager = new ActionManager(context);
+        actionManager = context.getBean("actionmanager", ActionManager.class );
     }
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
