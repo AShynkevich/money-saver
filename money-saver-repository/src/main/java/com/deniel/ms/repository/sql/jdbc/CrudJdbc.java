@@ -19,7 +19,7 @@ public abstract class CrudJdbc<E extends Identifiable<String>> implements Crud<S
     }
 
     @Override
-    public void create(E entity) throws RepositoryException {
+    public void create(E entity) {
         try {
             PreparedStatement preparedStatement = getCreateStatement(entity);
             preparedStatement.executeUpdate();
@@ -29,7 +29,7 @@ public abstract class CrudJdbc<E extends Identifiable<String>> implements Crud<S
     }
 
     @Override
-    public E read(String id) throws RepositoryException {
+    public E read(String id) {
         E entity = null;
         try {
             PreparedStatement preparedStatement = getParamIdStatement(id, String.format(SQL_READ_QUERY, getTableName(),
@@ -45,7 +45,7 @@ public abstract class CrudJdbc<E extends Identifiable<String>> implements Crud<S
     }
 
     @Override
-    public void update(E entity) throws RepositoryException {
+    public void update(E entity) {
         try {
             PreparedStatement preparedStatement = getUpdateStatement(entity);
             preparedStatement.executeUpdate();
@@ -55,7 +55,7 @@ public abstract class CrudJdbc<E extends Identifiable<String>> implements Crud<S
     }
 
     @Override
-    public void delete(String id) throws RepositoryException {
+    public void delete(String id) {
         if (read(id) != null) {
             try {
                 PreparedStatement preparedStatement = getParamIdStatement(id, String.format(SQL_DELETE_QUERY,
@@ -67,14 +67,18 @@ public abstract class CrudJdbc<E extends Identifiable<String>> implements Crud<S
         }
     }
 
-    protected abstract PreparedStatement getCreateStatement(E entity) throws SQLException;
+    protected abstract PreparedStatement getCreateStatement(E entity);
 
-    protected abstract PreparedStatement getUpdateStatement(E entity) throws SQLException;
+    protected abstract PreparedStatement getUpdateStatement(E entity);
 
-    protected PreparedStatement getParamIdStatement(String id, String query) throws SQLException {
-        PreparedStatement preparedStatement = getConnection().prepareStatement(query);
-        preparedStatement.setString(1, id);
-        return preparedStatement;
+    protected PreparedStatement getParamIdStatement(String id, String query) {
+        try {
+            PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+            preparedStatement.setString(1, id);
+            return preparedStatement;
+        } catch (SQLException e) {
+            throw new RepositoryException("Repository error:", e);
+        }
     }
 
     protected abstract String getTableName();

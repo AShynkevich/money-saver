@@ -6,19 +6,21 @@
     xsi:schemaLocation="
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
-    <bean id="homeaction"
-          class="com.deniel.ms.web.action.HomeAction">
-    </bean>
-    <bean id="notfoundaction"
-          class="com.deniel.ms.web.action.NotFoundAction">
-    </bean>
-    <bean id="actionmanager"
+
+    <import resource="service-context.xml"/>
+
+    <bean id="homeAction" class="com.deniel.ms.web.action.HomeAction"/>
+
+    <bean id="notFoundAction" class="com.deniel.ms.web.action.NotFoundAction"/>
+
+    <bean id="actionManager"
           class="com.deniel.ms.web.manager.ActionManager">
         <property name="actionList">
             <util:map>
-                <entry key="homepage" value-ref="homeaction" />
-                <entry key="notfoundaction" value-ref="notfoundaction" />
+                <entry key="homepage" value-ref="homeAction" />
+                <entry key="notfoundaction" value-ref="notFoundAction" />
             </util:map>
         </property>
     </bean>
+
 </beans>

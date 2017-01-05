@@ -2,6 +2,7 @@ package com.deniel.ms.repository.sql.jdbc.user;
 
 import com.deniel.ms.domain.user.IRole;
 import com.deniel.ms.domain.user.Role;
+import com.deniel.ms.exception.RepositoryException;
 import com.deniel.ms.repository.sql.jdbc.ConnectionManager;
 import com.deniel.ms.repository.sql.jdbc.CrudJdbc;
 import com.deniel.ms.user.IRoleRepository;
@@ -24,27 +25,39 @@ public class RoleRepository extends CrudJdbc<IRole> implements IRoleRepository {
     }
 
     @Override
-    protected PreparedStatement getCreateStatement(IRole role) throws SQLException {
-        PreparedStatement preparedStatement = getConnection().prepareStatement(CREATE_SQL);
-        preparedStatement.setString(1, role.getId());
-        preparedStatement.setString(2, role.getName());
-        return preparedStatement;
+    protected PreparedStatement getCreateStatement(IRole role) {
+        try {
+            PreparedStatement preparedStatement = getConnection().prepareStatement(CREATE_SQL);
+            preparedStatement.setString(1, role.getId());
+            preparedStatement.setString(2, role.getName());
+            return preparedStatement;
+        } catch (SQLException e) {
+            throw new RepositoryException("Repository error: ", e);
+        }
     }
 
     @Override
-    protected PreparedStatement getUpdateStatement(IRole role) throws SQLException {
-        PreparedStatement preparedStatement = getConnection().prepareStatement(UPDATE_SQL);
-        preparedStatement.setString(1, role.getName());
-        preparedStatement.setString(2, role.getId());
-        return preparedStatement;
+    protected PreparedStatement getUpdateStatement(IRole role) {
+        try {
+            PreparedStatement preparedStatement = getConnection().prepareStatement(UPDATE_SQL);
+            preparedStatement.setString(1, role.getName());
+            preparedStatement.setString(2, role.getId());
+            return preparedStatement;
+        } catch (SQLException e) {
+            throw new RepositoryException("Repository error: ", e);
+        }
     }
 
     @Override
-    protected IRole getEntity(ResultSet resultSet) throws SQLException {
-        IRole entity = new Role();
-        entity.setId(resultSet.getString("role_id"));
-        entity.setName(resultSet.getString("role_name"));
-        return entity;
+    protected IRole getEntity(ResultSet resultSet) {
+        try {
+            IRole entity = new Role();
+            entity.setId(resultSet.getString("role_id"));
+            entity.setName(resultSet.getString("role_name"));
+            return entity;
+        } catch (SQLException e) {
+            throw new RepositoryException("Repository error: ", e);
+        }
     }
 
     @Override

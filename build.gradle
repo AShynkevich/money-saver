@@ -9,8 +9,5 @@ subprojects {
 
 	dependencies {
 		compile 'org.apache.commons:commons-lang3:3.3.2'
-		compile group: 'org.springframework', name: 'spring-beans', version: '4.3.4.RELEASE'
-		compile group: 'org.springframework', name: 'spring-context', version: '4.3.4.RELEASE'
-		compile group: 'org.springframework', name: 'spring-core', version: '4.3.4.RELEASE'
 	}
 }

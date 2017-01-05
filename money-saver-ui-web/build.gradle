@@ -4,6 +4,7 @@ apply plugin: 'jetty'
 
 
 dependencies{
+    compile project(':money-saver-service')
     compile 'javax.servlet:javax.servlet-api:3.0.1'
     compile 'jstl:jstl:1.2'
 }
