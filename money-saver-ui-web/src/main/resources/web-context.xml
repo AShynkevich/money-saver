@@ -7,11 +7,17 @@
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 
+
     <import resource="service-context.xml"/>
 
     <bean id="homeAction" class="com.deniel.ms.web.action.HomeAction"/>
 
     <bean id="notFoundAction" class="com.deniel.ms.web.action.NotFoundAction"/>
+
+    <bean id="login" class="com.deniel.ms.web.action.Login"/>
+
+    <bean id="userservice" class="com.deniel.ms.service.UserService"/>
+
 
     <bean id="actionManager"
           class="com.deniel.ms.web.manager.ActionManager">
@@ -19,6 +25,7 @@
             <util:map>
                 <entry key="homepage" value-ref="homeAction" />
                 <entry key="notfoundaction" value-ref="notFoundAction" />
+                <entry key="login" value-ref="login" />
             </util:map>
         </property>
     </bean>

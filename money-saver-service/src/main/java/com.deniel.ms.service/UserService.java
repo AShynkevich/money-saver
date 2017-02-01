@@ -1,4 +1,6 @@
-import com.deniel.ms.domain.user.IUser;
+package com.deniel.ms.service;
+
+import com.deniel.ms.domain.user.IUserRoles;
 import com.deniel.ms.domain.user.User;
 import com.deniel.ms.repository.sql.jdbc.user.UserRepository;
 
@@ -13,7 +15,7 @@ public class UserService {
         userRepository.update(user);
     }
 
-    public IUser findUser(String login) {
+    public IUserRoles findUserByLogin(String login) {
         return userRepository.getUserRolesByLogin(login);
     }
 
